@@ -1,0 +1,58 @@
+<html>
+    <script>
+        /*PRMEIRO TESTE
+        OBJETIVO: ver como implementar o conceito de expressoes regulares em javaScript. 
+
+        var alvo = 'Z171PZ7AZ23PZ7819AZ78GZ1AZ99IZ34O'
+        var exp  = /[^Z\d]/g;
+        var resultado = null;
+        
+        while(resultado = exp.exec(alvo))
+        {
+            console.log(resultado);
+            console.log("INDEX: " + exp.lastIndex);
+        }        
+
+        //para ver se a REGEX é válida ou não, retorna TRUE ou FALSE
+        console.log(exp.test(alvo));*/
+
+
+        //===============================================
+        /*SEGUNDO TESTE
+        OBJETIVO: trocar os hífens por barras. 
+
+        var anoMesDia = '2007-12-31';
+        console.log("Data padrão: " + anoMesDia);
+        var exp = /-/g;
+        anoMesDia = anoMesDia.replace(exp,'/');
+        console.log("Data atualizada: " + anoMesDia);*/
+
+
+        //===============================================
+        /*TERCEIRO TESTE
+        OBJETIVO: separar os valores de um CSV (valores separados por vírgula), 
+        e colocá-los em um array. Mas o CSV está errado, invés de estar separado apenas por vírgulas,
+        ele possui separações com hífen e dois pontos. Então é necessário usar uma expressão regular,
+        para separar os valores de forma correta.
+
+        var arquivo = "100, 200-150,200;20";
+        var exp = /[,;-]/;
+        var valores = arquivo.split(exp);
+        console.log(valores);*/
+        
+        /*o método split() recebe o separador definido e cria um array com todas as separações.
+        Além de aceitar expressões regulares, o método split() aceita: "."  "-"  "/" e outros símbolos.*/
+        
+
+        //===============================================
+        /*QUARTO TESTE
+        OBJETIVO: achar todas as possibilidades que a expressão regular a ser definida, retorna.
+         
+        var codigos = 'A121B12112C12212F12G01';
+        var exp = /[A-Za-z]\d+/g;
+        var codigosExtraidos = codigos.match(exp);
+        console.log(codigosExtraidos);*/
+
+        /*o método match() cria um vetor, que é preenchido com cada resultado que a expressao regular retornar*/
+    </script>
+</html>

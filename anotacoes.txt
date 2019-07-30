@@ -1,0 +1,147 @@
+    ------------------ Conceito de expressões regulares ou REGEX:
+
+    É um padrão, é uma forma de definir um conjunto de caracteres dentro de um texto.
+    Regex, ou expressões regulares, é uma linguagem para encontrar padrões de texto.
+    Ou seja, é fazer uma pesquisa em um texto, string. Um exemplo de regex, é o CRTL + F nos editores de código.
+
+    ------------------Colocando na prática o conceito:
+
+    + Meta-char são símbolos que não são interpretados de forma literária na hora de fazer a pesquisa, 
+    e sim eles tem um significado especial.
+    Exeplos de meta-char: 
+        (.) e (*), os próprios parênteses são meta-char -> exemplo: ().
+
+    + Para remover o significado de um meta-char, e tornar seu valor o literal, é preciso fazer isso.
+    Exemplo: 
+        \. ou \* ou \( ou \). Colocanto a "\" antes do meta-char, ele perde seu simbolismo e seu valor
+        passa a ser seu valor literal.
+
+    + Caracter class é uma expressão com o significado especial, e não o literário, é usada para representar um
+    conjunto de caracteres. 
+    Exemplos: 
+        (\d) significa que você está buscando um número 
+        (\s) significa espaço em branco. 
+        (\w) significa que você está procurando qualquer caracter, número, letra, símbolos especiais e etc. 
+
+    + Para representar um número em regex, deve se usar esta expressão (\d). Caso queira representar mais números,
+    basta repitir a expressão, por exemplo: (\d\d\d).
+    Caso queira poupar tempo, invés de escrever vários (\d), pode se fazer desta forma, \d{3}. O "3" entre os
+    colchetes, significa o quanto de vezes você deseja procurar aquele número.
+
+    + Para pegarmos todos os caracteres de um texto, basta usar (.).
+    O ponto final representa que todos os valores serão retornados, desde números à letras e símbolos.
+
+    + (*) é um quantifier que significa zero, uma ou mais vezes.
+
+    + O meta-char (?) significa que o caracter(es) que você está procurando podem ou NÃO estar no texto. 
+    Por isso o ponto  de interrogação.
+    Exemplo: 
+        Estou procurando um CPF, mas o valor fornecido pode estar assim 123.456.789-00 ou pode estar assim 12345678900.
+        Na busca REGEX, o melhor a se fazer nessa caso é: \d{3}\.?\d{3}\.?\d{3}-?\d{2}. Perceba que o  (.) está com um
+        (?) logo após dele, pois o CPF fornecido pode ou não estar com (.).
+    Isso poderia ser feito de outra forma também.
+    Exemplo:
+        \d{3}\.{0,1}\d{3}\.{0,1}\d{3}-{0,1}\d{2}, perceba que foi  usado um QUANTIFIER, {0,1}, ou seja, pode ter 
+        nenhum ponto ou pode ter um. Outros exemplos relacionados: {0,3} {0,4} {1,4}.
+
+    + Caso queira definir possibilidades, por exemplo, o que você está procurando pode ser um (.) ou (-). 
+    Para resolver esse problema, faça isso.
+    Exemplo: [-.]?
+        A sintaxe acima significa, o que está entre os colchetes são os caracteres que você está em dúvida, 
+        pode ter (-) ou (.)
+        E o (?) logo em seguida significa que pode ter algum destes na string ou nenhum. Ele irá considerar
+        ambas as possiblidades.
+
+    + Esta expressão: [0123456789], pode ser representada desta maneira também [0-9].
+    Outro exemplo, quero definir um filtro que vá de 1 até 3 e de 6 até 9, isso pode ser feito assim: [1-36-9]
+
+    + Para definir um espaço em braco, deve-se usar o comando "\s", este comando detecta apenas UM espaço em branco, 
+    mas caso queira detectar mais espaços em branco use este comando "\s+".
+
+    + Outros QUANTIFIERSS possíveis de serem usados:
+    ? - zero ou uma vez.
+    * - zero ou mais vezes.
+    + - uma ou mais vezes.
+    {n} - exatamente n vezes.
+    {n,} - no mínimo n vezes.
+    {n,m} - no mínimo n+1, no máximo m vezes
+
+    + Para filtrar o alfabeto completo faça assim: [A-Z] ou [a-z], sim, tem diferenciação entre maiúsculo e minúsculo.
+    Letras especiais não são detectadas destas maneiras, por letras especiais me refiro a: Ç, ç, Á, á, Ã, ã e etc.
+    Para elas serem detectadas, é necessários incluí-lás na mão, desta forma: [A-ZÇÁÃ] ou [a-zçáã]
+
+    + Exemplo: 
+        Quero encontrar "19 de Março de 2000" na string, posso fazer assim: [1-3]?\d\s+de\s+[A-Z][a-zç]{1,8}\s+de\s+[12]\d{3} 
+        OU [1-3]?\d\s+de\s+[A-Z][a-zç]+\s+de\s+[12]\d{3}. A diferença no trecho é [A-Z][a-zç]{1,8} e [A-Z][a-zç]+
+    
+    +  Como poderíamos definir um espaço dentro de uma regex? E se não for o espaço e sim um tab? 
+    Felizmente já existe uma classe predefinida, a \s. \s significa whitespace. 
+    A definição do \s pode variar um pouco entre as implementações, mas normalmente é um atalho para [ \t\r\n\f] onde:
+    Exemplo: 
+    O primeiro caractere é um espaço branco.
+        \t é um tab.
+        \r é carriage return.
+        \n é newline.
+        \f é form feed.
+
+    + Quero filtrar números entre 7.2 e  7.9
+    RESPOSTA: 7\.[2-9]
+
+    + \s significa whitespace e é um atalho para [ \t\r\n\f]
+      \w significa word char e é uma atalho para [A-Za-z0-9_].
+
+
+    + Para obter um grupo dentro de um resultado da REGEX, basta colocar entre parênteses o que você deseja destacar do resultado.
+    EXEMPLO: 
+        temos essa REGEX: [1-3]?\d\s+de\s+[A-Z][a-zç]{3,8}\s+de\s+([12]\d{3}) note que o trecho [12]\d{3} está entre parênteses,
+        então esse trecho do resultado da REGEX será destacado, assim formando um grupo. 
+
+    + Caso você queira ignorar uma parte de um resultado, por exemplo: temos esse alvo "19 de Setembro de 2000", mas ao dar o comando
+    da REGEX deseja ignorar os "de", basta fazer assim no comando REGEX "(?:de\s+)", note que a REGEX possui "?:" esse datalhe faz com que  
+    o resultado relacionado a essa parte da REGEX seja ignorado na hora da execução.
+
+    + Para criar um delimitador de busca, basta usar esta sintaxe "+?".
+    EXEMPLO: 
+        Temos o seguinte texto, "<h1 class="text-left">Expressões regulares</h1>", e deseja selecionar apenas "<h1 class="text-left">",
+        basta fazer sua REGEX desse jeito: <h1.+?>
+        O sinal de "+?" significa que ele selecionará tudo enquanto NÃO achar o ">", asism que achar, a busca é  interrompida.
+
+    + Voltando para o conceito de GRUPOS em REGEX.
+      Há uma maneira de se referir a certo grupo já definido. Tome este alvo como exemplo, "<h1 class="text-left">Expressões regulares</h2>",
+      note que ele começa com "H1" e termina com "H2" e isso está errado. Então usando a sintaxe de grupo, 
+      faremos a seguinte REGEX: <(h1|h2).+?>([\wõ\s]*)</\1> perceba que que no inicio da regex definimos um grupo com possibilidades, "<(h1|h2)>",
+      e no final temos "</\1>" esta sintaxe de "\1" está se referindo ao PRIMEIRO grupo que foi feito na REGEX. 
+      E o que isso quer dizer ?
+      Isto significa que o trecho "</\1>" precisa  ser IGUAL ao trecho "<(h1|h2)>" na hora da busca no alvo, com isso, 
+      podemos concluir que o nosso alvo atual "<h1 class="text-left">Expressões regulares</h2>" não seria pego com nossa REGEX atual: "<(h1|h2).+?>([\wõ\s]*)</\1>"
+      pois seu inicio é "H1" e seu final é "H2".
+      Se o alvo fosse "<h1 class="text-left">Expressões regulares</h1>" com inicio H1 e final H1, ai sim a regex retornaria um resultado.
+
+      OBSERVAÇÃO: supondo que tivesse 5º grupos na regex e você quisesse se referir ao 2º grupo, sua sintaxe teria que ser assim "\2",
+      se fosse o 3º seria "\3" e assim por diante.
+
+
+    + Muitas vezes na hora de pesquisa regex, é mais fácil dizer o que NÃO queremos e assim deixar o resultado composto só pelo o que queremos.
+      Para você negar/banir algum elemento, deve-se usar essa sintaxe: "^". OBS: este símbolo só deve ser usado dentro de classes [ ],
+      com o propósito de negar alguma coisa.
+      EXEMPLO: 
+       temos este alvo: "Z171PZ7AZ23PZ7819AZ78GZ1AZ99IZ34O", para pegar a informação que importa, use esta regex: [^Z\d].
+       Com isso, estamos banindo a letra Z inicial e todos os números presentes, apenasdeixando o restante das letras.
+
+    -----------------------------ÂNCORAS
+
+    + Para ser o mais espicífico possível, pode usar o comando de âncora, que vai buscar apenas o for definido.
+    O comando é "\b"
+    Exemplo: \bde\b neste caso o regex buscará apenas a combinação de caracteres igual a "de"
+
+    + Outra âncora é "^", ela é usada quando você quer garantir que não há antes de algum caracter
+
+    + Para garantir que não há nada depois da string, pode-se usar essa âncora "$".
+
+    + Para concluir "^" é usado no inicio e "$" no final.
+
+    EXEMPLO: temos esta string "file:///C:/Users/Usuario/Documents/MURILO/Trabalhos/Cursos/JavaScript/CursoAlura/expressoes-regulares/index.html"
+    Sua REGEX usando âncoras, fica deste jeito: ^file.+\.html$
+
+    + Existe a inversão do \b, o non-word-boundary: \B (B maiúsculo), esse comando faz com o que você está procurando 
+    deve aparecer dentro de uma palavra, nunca no inicio ou fim.
